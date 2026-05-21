@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro Basics</title>
+	</head>
+
+	<body>
+		<!-- Snow Background -->
+		<div class="snow-container">
+			{Array.from({ length: 70 }).map(() => (
+				<span class="snowflake"></span>
+			))}
+		</div>
+
+		<!-- Main Layout -->
+		<div class="port">
+			<slot />
+		</div>
+
+		<script>
+			const snowflakes = document.querySelectorAll(".snowflake");
+
+snowflakes.forEach((snowflake) => {
+	snowflake.style.left = `${Math.random() * 100}%`;
+	snowflake.style.animationDuration = `${5 + Math.random() * 10}s`;
+	snowflake.style.animationDelay = `${Math.random() * 5}s`;
+	snowflake.style.opacity = Math.random();
+});
+		</script>
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		min-height: 100%;
+		background: #0b0b0b;
+		overflow-x: hidden;
+	}
+
+	body {
+		position: relative;
+		z-index:0;
+	}
+
+	/* Main content above snow */
+	.port {
+		position: relative;
+		z-index: 1;
+	}
+
+	/* Snow container */
+	.snow-container {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	overflow: hidden;
+
+	z-index: 9999;
+}
+
+	/* Snowflakes */
+	.snowflake {
+	position: absolute;
+	top: -20px;
+
+	width: 5px;
+	height: 5px;
+
+	background: radial-gradient(
+		circle,
+		#ffd700 0%,
+		#d4af37 40%,
+		rgba(212, 175, 55, 0.2) 100%
+	);
+
+	border-radius: 50%;
+
+	box-shadow:
+		0 0 6px rgba(212, 175, 55, 0.6),
+		0 0 12px rgba(255, 215, 0, 0.3);
+
+	opacity: 0.8;
+
+	animation-name: snowfall;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+	@keyframes snowfall {
+	0% {
+		transform: translateY(-10vh) translateX(0);
+	}
+
+	100% {
+		transform: translateY(110vh) translateX(60px);
+	}
+}
+
+</style>
+
+<script>
+	const obs = new IntersectionObserver(entries => {
+	entries.forEach(e => {
+		if(e.isIntersecting) e.target.style.animationPlayState = 'running';
+	});
+	},{threshold:0.08});
+
+	document.querySelectorAll('.skill,.proj-card,.blog-item,.exp-row').forEach(el => {
+	el.style.animationPlayState = 'paused';
+	obs.observe(el);
+	});
+</script>
