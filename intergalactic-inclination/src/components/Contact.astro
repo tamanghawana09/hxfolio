@@ -1,0 +1,211 @@
+---
+    import "../styles/global.css";
+---
+
+  <section class="contact-hero">
+    <div style="opacity:0;animation:fadeUp 0.7s 0.1s ease forwards;">
+      <div class="contact-eyebrow">
+        <div class="contact-eyebrow-dash"></div>
+        <span class="contact-eyebrow-text">Contact</span>
+      </div>
+      <h1 class="contact-page-title">Let's build<br>something <em>together</em></h1>
+    </div>
+    <div class="contact-hero-right">
+      <p class="contact-hero-desc">
+        Whether you have a <strong>backend project</strong>, need a <strong>WordPress solution</strong>, or just want to talk about APIs and databases — my inbox is open. I try to reply within 24 hours.
+      </p>
+      <div class="avail-badge">
+        <div class="avail-dot"></div>
+        Available for work
+      </div>
+    </div>
+  </section>
+    <div class="main-grid">
+    <div class="form-col">
+      <div class="col-label">Send a message</div>
+
+      <div id="form-wrap">
+        <div class="field-row">
+          <div class="field">
+            <label>First name</label>
+            <input type="text" placeholder="Alex" id="fname">
+          </div>
+          <div class="field">
+            <label>Last name</label>
+            <input type="text" placeholder="Johnson">
+          </div>
+        </div>
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" placeholder="alex@company.com" id="email">
+        </div>
+        <div class="field">
+          <label>I'm looking for</label>
+          <select id="subject">
+            <option value="" disabled selected>Select a topic</option>
+            <option>Backend development (Spring Boot / Java)</option>
+            <option>WordPress development</option>
+            <option>Full-stack project</option>
+            <option>Freelance / contract work</option>
+            <option>Just saying hello</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea placeholder="Tell me about your project, timeline, and what you're building..." id="msg" maxlength="500"></textarea>
+          <div class="char-count"><span id="cc">0</span> / 500</div>
+        </div>
+        <button class="btn-submit" id="sendbtn">
+          Send message <i class="ti ti-send" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="success-msg" id="success">
+        <div class="success-icon"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+        <div class="success-title">Message sent!</div>
+        <p class="success-sub">Thanks for reaching out. I'll get back to you within 24 hours at the email you provided.</p>
+      </div>
+    </div>
+
+    <div class="info-col">
+      <div class="col-label">Get in touch directly</div>
+
+      <div class="contact-links">
+        <a class="contact-item" href="mailto:hawanatamang@gmail.com">
+          <div class="ci-icon"><i class="ti ti-mail" aria-hidden="true"></i></div>
+          <div class="ci-body">
+            <div class="ci-type">Email</div>
+            <div class="ci-label">hawanatamang@gmail.com</div>
+          </div>
+          <i class="ti ti-arrow-right ci-arrow" aria-hidden="true"></i>
+        </a>
+        <a class="contact-item" href="#">
+          <div class="ci-icon"><i class="ti ti-brand-github" aria-hidden="true"></i></div>
+          <div class="ci-body">
+            <div class="ci-type">GitHub</div>
+            <div class="ci-label">github.com/hawanatamang</div>
+          </div>
+          <i class="ti ti-arrow-right ci-arrow" aria-hidden="true"></i>
+        </a>
+        <a class="contact-item" href="#">
+          <div class="ci-icon"><i class="ti ti-brand-linkedin" aria-hidden="true"></i></div>
+          <div class="ci-body">
+            <div class="ci-type">LinkedIn</div>
+            <div class="ci-label">linkedin.com/in/hawanatamang</div>
+          </div>
+          <i class="ti ti-arrow-right ci-arrow" aria-hidden="true"></i>
+        </a>
+        <a class="contact-item" href="tel:+9779808691807">
+          <div class="ci-icon"><i class="ti ti-phone" aria-hidden="true"></i></div>
+          <div class="ci-body">
+            <div class="ci-type">Phone</div>
+            <div class="ci-label">+977 9808691807</div>
+          </div>
+          <i class="ti ti-arrow-right ci-arrow" aria-hidden="true"></i>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="location-box">
+        <div class="loc-label">Location</div>
+        <div class="loc-map">
+          <svg class="map-grid" viewBox="0 0 300 72" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="#C9A84C" stroke-width="0.5"/></pattern></defs>
+            <rect width="300" height="72" fill="url(#g)"/>
+            <circle cx="150" cy="36" r="24" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/>
+            <circle cx="150" cy="36" r="14" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.3"/>
+          </svg>
+          <i class="ti ti-map-pin map-pin" aria-hidden="true"></i>
+        </div>
+        <div class="loc-text">
+          <i class="ti ti-map-pin" aria-hidden="true"></i>
+          Bhaktapur, Bagmati Province, Nepal (NPT, UTC+5:45)
+        </div>
+      </div>
+
+      <div class="response-note">
+        <p><strong>Response time:</strong> I typically reply within 24 hours on weekdays. For urgent work, calling or WhatsApp on +977 9808691807 is fastest.</p>
+      </div>
+    </div>
+  </div>
+  <section class="faq-sec">
+    <div class="sec-head">
+      <span class="sec-num">—</span>
+      <span class="sec-title">Common questions</span>
+      <div class="sec-line"></div>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item" style="animation-delay:0.05s">
+        <p class="faq-q">Are you open to remote work?</p>
+        <p class="faq-a">Yes, fully. All my professional experience at WPDrops was delivering projects for international clients remotely.</p>
+      </div>
+      <div class="faq-item" style="animation-delay:0.1s">
+        <p class="faq-q">What kind of projects do you take on?</p>
+        <p class="faq-a">Backend APIs in Java/Spring Boot, WordPress development (plugins, themes, Gutenberg blocks), and full-stack builds.</p>
+      </div>
+      <div class="faq-item" style="animation-delay:0.15s">
+        <p class="faq-q">Are you available for full-time roles?</p>
+        <p class="faq-a">Yes, actively looking. Freelance and contract projects are also welcome while I search.</p>
+      </div>
+      <div class="faq-item" style="animation-delay:0.2s">
+        <p class="faq-q">What's your preferred stack?</p>
+        <p class="faq-a">Java + Spring Boot + PostgreSQL on the backend. WordPress + React for CMS work. Open to exploring new stacks.</p>
+      </div>
+      <div class="faq-item" style="animation-delay:0.25s">
+        <p class="faq-q">Can I see your resume?</p>
+        <p class="faq-a">Sure — send a quick email and I'll attach the latest PDF. Or ask me to add a download link on this page.</p>
+      </div>
+      <div class="faq-item" style="animation-delay:0.3s">
+        <p class="faq-q">Do you do code reviews or consulting?</p>
+        <p class="faq-a">On a case-by-case basis. If you have a specific Spring Boot or WordPress codebase, reach out and we can talk scope.</p>
+      </div>
+    </div>
+  </section>
+  <script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+},{threshold:0.08});
+document.querySelectorAll('.faq-item').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  obs.observe(el);
+});
+
+const msg = document.getElementById('msg');
+const cc = document.getElementById('cc');
+msg.addEventListener('input', () => { cc.textContent = msg.value.length; });
+
+document.getElementById('sendbtn').addEventListener('click', () => {
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const subject = document.getElementById('subject').value;
+  const message = msg.value.trim();
+
+  if(!fname || !email || !subject || !message) {
+    const fields = [
+      {el: document.getElementById('fname'), val: fname},
+      {el: document.getElementById('email'), val: email},
+      {el: document.getElementById('subject'), val: subject},
+      {el: msg, val: message}
+    ];
+    fields.forEach(f => {
+      if(!f.val) {
+        f.el.style.borderColor = 'rgba(201,100,100,0.6)';
+        setTimeout(() => f.el.style.borderColor = '', 1800);
+      }
+    });
+    return;
+  }
+
+  const btn = document.getElementById('sendbtn');
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    document.getElementById('form-wrap').style.display = 'none';
+    const s = document.getElementById('success');
+    s.style.display = 'flex';
+  }, 900);
+});
+</script>
