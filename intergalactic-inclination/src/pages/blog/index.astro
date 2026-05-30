@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import Nav from "../../components/Nav.astro";
+import Layout from "../../layouts/Layout.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/blog.css";
+
+const posts = await getCollection("blog");
+
+posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout>
+  <Nav />
+<div class="blog-page">
+  <div class="blog-header">
+    <div class="blog-header-top">
+      <h1>The <em>Blog</em></h1>
+      <span class="blog-header-count">{posts.length} posts</span>
+    </div>
+    <div class="blog-header-rule"></div>
+  </div>
+
+  <div class="blog-grid">
+    {posts.map((post, i) => (
+      <a href={`/blog/${post.id}`} class={`blog-card${i === 0 ? " blog-card-featured" : ""}`}>
+        {i === 0 && <span class="feat-label">Latest</span>}
+        <span class="card-tag">{post.data.tag ?? "Post"}</span>
+        <h2>{post.data.title}</h2>
+        <p>{post.data.description}</p>
+        <div class="card-footer">
+          <span class="card-date">{post.data.date.toDateString()}</span>
+          <span class="card-arrow">↗</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+<Footer />
+</Layout>

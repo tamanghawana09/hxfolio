@@ -1,0 +1,58 @@
+---
+import { getCollection, render } from "astro:content";
+import Nav from "../../components/Nav.astro";
+import Layout from "../../layouts/Layout.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/post.css";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const readingTime = Math.ceil(post.body.split(/\s+/).length / 200);
+---
+
+
+<Layout>
+<Nav />
+<article class="post-page">
+
+  <a href="/blog" class="back-link">
+    <span class="arr">←</span> All posts
+  </a>
+
+  <div class="post-header">
+    {post.data.tag && <span class="post-tag">{post.data.tag}</span>}
+    <h1 class="post-title">{post.data.title}</h1>
+    <div class="post-meta">
+      {post.data.author && <span>{post.data.author}</span>}
+      {post.data.author && <span class="post-meta-dot">✦</span>}
+      <span>{post.data.date.toDateString()}</span>
+      <span class="post-meta-dot">✦</span>
+      <span>{readingTime} min read</span>
+    </div>
+  </div>
+
+  <div class="post-divider"></div>
+
+  <div class="post-body">
+    <Content />
+  </div>
+
+  <div class="post-footer">
+    <div class="post-footer-inner">
+      <span class="post-footer-label">Hawana's Blogs</span>
+      <a href="/blog" class="back-btn">← Back to blog</a>
+    </div>
+  </div>
+
+</article>
+<Footer />
+</Layout>
