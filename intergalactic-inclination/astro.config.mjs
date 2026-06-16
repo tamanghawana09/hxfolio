@@ -18,6 +18,7 @@ export default defineConfig({
   devToolbar:{
     enabled:false
   },
+  site:"https://hawanatamang.com.np/",
 
   integrations: [mdx(), sitemap()],
   adapter: vercel()
