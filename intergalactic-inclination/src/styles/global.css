@@ -309,7 +309,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--g);
+  background: rgb(159, 255, 14);
   animation: pulse 2s infinite;
 }
 .status-text {
