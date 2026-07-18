@@ -1,0 +1,59 @@
+---
+    import "../styles/animation.css";
+   
+---
+
+<section class="Horizontal">
+    <div class="container">
+        <h3 class="Horizontal__text heading-xl">FROM IDEA TO INTERACTIVE EXPERIENCE ✦ MODERN WEBSITES ✦ CREATIVE INTERFACES ✦ SMOOTH ANIMATIONS ✦ PIXEL PERFECT DESIGN ✦ FAST PERFORMANCE ✦ ACCESSIBLE EXPERIENCES ✦</h3>
+    </div>
+</section>
+
+<script>
+    import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
+console.log("Animation script loaded");
+
+window.addEventListener("load", () => {
+  const wrapper = document.querySelector(".Horizontal");
+  const text = document.querySelector(".Horizontal__text");
+
+  console.log(wrapper, text);
+
+  if (!wrapper || !text) return;
+
+  const split = SplitText.create(text, {
+    type: "chars, words",
+  });
+
+  const scrollTween = gsap.to(text, {
+    xPercent: -100,
+    ease: "none",
+    scrollTrigger: {
+      trigger: wrapper,
+      pin: true,
+      end: "+=800",
+      scrub: true,
+    },
+  });
+
+  split.chars.forEach((char) => {
+    gsap.from(char, {
+      yPercent: "random(-200,200)",
+      rotation: "random(-20,20)",
+      ease: "back.out(1.2)",
+      scrollTrigger: {
+        trigger: char,
+        containerAnimation: scrollTween,
+        start: "left 100%",
+        end: "left 30%",
+        scrub: 1,
+      },
+    });
+  });
+});
+</script>

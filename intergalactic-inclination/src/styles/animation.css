@@ -1,0 +1,21 @@
+.Horizontal {
+  overflow: hidden;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+}
+
+.Horizontal__text {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  gap: 4vw;
+  padding-left: 50vw;
+}
+
+.heading-xl {
+  font-size: clamp(2rem, 10vw, 12rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: #c9a84c;
+}
