@@ -2,12 +2,18 @@
 import "../styles/global.css";
 ---
 
-  <section class="sec">
-    <div class="sec-head">
-      <span class="sec-title">Experience</span>
-      <div class="sec-line"></div>
-    </div>
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-title">Experience</span>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="exp-rows">
+    <div class="exp-line"></div>
+    <div class="exp-line-fill" id="exp-line-fill"></div>
+
     <div class="exp-row" style="animation-delay:0.05s">
+      <span class="exp-dot"></span>
       <div class="exp-left">
         <div class="exp-date">Jul 2026 – present</div>
         <div class="exp-co">Khoja Nepal Pvt Ltd</div>
@@ -20,7 +26,9 @@ import "../styles/global.css";
         </ul>
       </div>
     </div>
+
     <div class="exp-row" style="animation-delay:0.05s">
+      <span class="exp-dot"></span>
       <div class="exp-left">
         <div class="exp-date">Feb 2026 – Apr 2026</div>
         <div class="exp-co">iSmart</div>
@@ -29,11 +37,13 @@ import "../styles/global.css";
         <p class="exp-role">Java Developer Intern</p>
         <ul class="exp-pts">
           <li>Implemented scalable services for key projects, including AniMatch and Expense Tracker, utilizing Java Spring Boot.</li>
-          <li> Integration of JWT and Oauth protocols for secure user authentication and authorization.</li>
+          <li>Integration of JWT and Oauth protocols for secure user authentication and authorization.</li>
         </ul>
       </div>
     </div>
+
     <div class="exp-row" style="animation-delay:0.05s">
+      <span class="exp-dot"></span>
       <div class="exp-left">
         <div class="exp-date">Jul 2024 – Oct 2025</div>
         <div class="exp-co">WPDrops pvt. ltd</div>
@@ -46,7 +56,9 @@ import "../styles/global.css";
         </ul>
       </div>
     </div>
+
     <div class="exp-row" style="animation-delay:0.12s">
+      <span class="exp-dot"></span>
       <div class="exp-left">
         <div class="exp-date">Apr 2024 – Jun 2024</div>
         <div class="exp-co">WPDrops pvt. ltd</div>
@@ -59,4 +71,90 @@ import "../styles/global.css";
         </ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  window.addEventListener("load", () => {
+    const wrap = document.querySelector(".exp-rows");
+    const fill = document.getElementById("exp-line-fill");
+    const rows = gsap.utils.toArray(".exp-row");
+
+    if (!wrap || !fill || rows.length === 0) return;
+
+    // draws the line downward as you scroll through the whole timeline
+    gsap.to(fill, {
+      scaleY: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: wrap,
+        start: "top 75%",
+        end: "bottom 70%",
+        scrub: true,
+      },
+    });
+
+    // lights up each dot as the line reaches it
+    rows.forEach((row) => {
+      const dot = row.querySelector(".exp-dot");
+      if (!dot) return;
+
+      gsap.to(dot, {
+        backgroundColor: "var(--gold, #c9a84c)",
+        scale: 1.3,
+        duration: 0.3,
+        scrollTrigger: {
+          trigger: row,
+          start: "top 78%",
+          toggleActions: "play none none reverse",
+        },
+      });
+    });
+  });
+</script>
+
+<style>
+  .exp-rows {
+    position: relative;
+  }
+
+  .exp-row {
+    position: relative;
+    padding-left: 1.75rem; /* room for the line + dots */
+  }
+
+  .exp-line,
+  .exp-line-fill {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+  }
+
+  .exp-line {
+    background: rgba(255, 255, 255, 0.12); /* swap for your muted line color */
+  }
+
+  .exp-line-fill {
+    background: var(--gold, #c9a84c); /* swap for your actual accent variable */
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .exp-dot {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(calc(-50% + 1px), 0);
+  }
+</style>
