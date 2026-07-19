@@ -1,0 +1,135 @@
+---
+import "../styles/global.css";
+---
+
+<section class="sec mtn-sec">
+
+  <div class="mtn-scene">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--gold, #c9a84c)" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="var(--gold, #c9a84c)" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <g id="stars">
+        <circle class="star" cx="80" cy="40" r="1.5" fill="var(--gold, #c9a84c)"/>
+        <circle class="star" cx="240" cy="20" r="1.2" fill="var(--gold, #c9a84c)"/>
+        <circle class="star" cx="420" cy="35" r="1.6" fill="var(--gold, #c9a84c)"/>
+        <circle class="star" cx="640" cy="15" r="1.3" fill="var(--gold, #c9a84c)"/>
+        <circle class="star" cx="880" cy="30" r="1.4" fill="var(--gold, #c9a84c)"/>
+        <circle class="star" cx="1080" cy="18" r="1.7" fill="var(--gold, #c9a84c)"/>
+        <circle class="star" cx="1280" cy="40" r="1.2" fill="var(--gold, #c9a84c)"/>
+        <circle class="star" cx="1380" cy="22" r="1.5" fill="var(--gold, #c9a84c)"/>
+      </g>
+
+      <ellipse id="glow" fill="url(#glowGrad)" cx="1000" cy="70" rx="340" ry="150"/>
+
+      <path id="ridge-back" class="ridge" fill="#d9c48f" fill-opacity="0.35"
+  d="M0,160L48,149.3C96,139,192,117,288,128C384,139,480,181,576,181.3C672,181,768,139,864,144C960,149,1056,203,1152,197.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
+
+<path id="ridge-mid" class="ridge" fill="#c9a84c" fill-opacity="0.75"
+  d="M0,160L48,149.3C96,139,192,117,288,128C384,139,480,181,576,181.3C672,181,768,139,864,144C960,149,1056,203,1152,197.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
+
+<path id="ridge-front" class="ridge" fill="#8a6a2a"
+  d="M0,160L48,149.3C96,139,192,117,288,128C384,139,480,181,576,181.3C672,181,768,139,864,144C960,149,1056,203,1152,197.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
+    </svg>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  window.addEventListener("load", () => {
+    const scene = document.querySelector(".mtn-scene");
+    if (!scene) return;
+
+    gsap.set(["#ridge-back", "#ridge-mid", "#ridge-front", "#glow"], { y: 20 });
+
+    gsap.timeline({
+      scrollTrigger: { trigger: scene, start: "top 80%" },
+    })
+      .to("#ridge-back", { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 0)
+      .to("#glow", { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0.1)
+      .to("#ridge-mid", { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 0.2)
+      .to("#ridge-front", { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 0.35)
+      .to(".star", { opacity: 1, duration: 1, stagger: 0.03 }, 0.5);
+
+    document.querySelectorAll(".star").forEach((star) => {
+      gsap.to(star, {
+        opacity: gsap.utils.random(0.3, 1),
+        duration: gsap.utils.random(1.5, 3.5),
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: gsap.utils.random(0, 2),
+      });
+    });
+
+    gsap.to("#glow", {
+      opacity: 0.6,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+
+    gsap.to("#ridge-back", {
+      yPercent: -5,
+      ease: "none",
+      scrollTrigger: { trigger: scene, start: "top bottom", end: "bottom top", scrub: true },
+    });
+    gsap.to("#ridge-mid", {
+      yPercent: -12,
+      ease: "none",
+      scrollTrigger: { trigger: scene, start: "top bottom", end: "bottom top", scrub: true },
+    });
+    gsap.to("#ridge-front", {
+      yPercent: -22,
+      ease: "none",
+      scrollTrigger: { trigger: scene, start: "top bottom", end: "bottom top", scrub: true },
+    });
+  });
+</script>
+
+<style>
+  .mtn-scene {
+    position: relative;
+    width: 100%;
+    height: 42vh;
+    overflow: hidden;
+  }
+
+  .mtn-scene svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .ridge {
+    opacity: 0;
+    transform-origin: 0px 320px;
+  }
+
+  #ridge-back {
+    transform: scaleY(0.6);
+  }
+
+  #ridge-mid {
+    transform: scaleY(0.9);
+  }
+
+  #ridge-front {
+    transform: scaleY(1.3);
+  }
+
+  .star {
+    opacity: 0;
+  }
+</style>
