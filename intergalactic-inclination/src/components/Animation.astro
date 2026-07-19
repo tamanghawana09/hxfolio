@@ -36,8 +36,8 @@ window.addEventListener("load", () => {
     scrollTrigger: {
       trigger: wrapper,
       pin: true,
-      end: "+=800",
-      scrub: true,
+      end: "+=2500",
+      scrub: 1.2,
     },
   });
 
@@ -51,7 +51,7 @@ window.addEventListener("load", () => {
         containerAnimation: scrollTween,
         start: "left 100%",
         end: "left 30%",
-        scrub: 1,
+        scrub: 1.5,
       },
     });
   });
