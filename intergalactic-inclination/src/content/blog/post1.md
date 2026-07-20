@@ -3,7 +3,11 @@ title: "My First Blog"
 description: "A starting point — where this all begins and what I hope to explore."
 date: 2026-05-30
 author: Hawana Tamang
-tag: Introduction
+tag:
+  - Introduction
+  - Hawana Tamang
+  - Web Developer
+  - Productivity
 ---
 
 # Hello World

@@ -11,7 +11,7 @@ date: 2026-07-20
 
 author: Hawana Tamang
 
-tags: ["WordPress", "Web Development", "SEO", "Custom Website"]
+tag: ["WordPress", "Web Development", "SEO", "Custom Website"]
 ---
 
 # How I Build Custom WordPress Websites

@@ -25,7 +25,9 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     {posts.map((post, i) => (
       <a href={`/blog/${post.id}`} class={`blog-card${i === 0 ? " blog-card-featured" : ""}`}>
         {i === 0 && <span class="feat-label">Latest</span>}
-        <span class="card-tag">{post.data.tag ?? "Post"}</span>
+        <span class="card-tag">
+  {post.data.tag?.[0] ?? "Post"}
+</span>
         <h2>{post.data.title}</h2>
         <p>{post.data.description}</p>
         <div class="card-footer">

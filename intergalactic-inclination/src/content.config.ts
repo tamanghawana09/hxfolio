@@ -13,7 +13,7 @@ const blog = defineCollection({
   heroImage: z.string().optional(),
 
   author: z.string().optional(),
-  tag: z.string().optional(),
+  tag: z.array(z.string()).optional(),
 
   date: z.date(),
 })

@@ -3,7 +3,7 @@ title: "The Influence of AI: How the Internet Changed Faster Than Most People Re
 description: "Discover how AI has transformed learning, web development, content creation, and the internet itself. A personal perspective on adapting to the AI era."
 date: 2026-07-19
 author: Hawana Tamang
-tags:
+tag:
   - Artificial Intelligence
   - AI
   - Web Development
