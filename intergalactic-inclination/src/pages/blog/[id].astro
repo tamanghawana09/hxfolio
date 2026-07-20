@@ -20,7 +20,12 @@ const readingTime = Math.ceil(post.body.split(/\s+/).length / 200);
 ---
 
 
-<Layout>
+<Layout
+  title={post.data.seoTitle ?? post.data.title}
+  description={post.data.seoDescription ?? post.data.description}
+  image={post.data.heroImage}
+  canonical={`https://hawanatamang.com.np/blog/${post.id}`}
+>
 <Nav />
 <article class="post-page">
 
