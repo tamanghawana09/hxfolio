@@ -11,7 +11,7 @@ export const site = {
   timezone: 'NPT, UTC+5:45',
   availability: 'Open to backend roles, WordPress projects, and freelance work.',
   responseTime: 'Usually within 24 hours on weekdays.',
-  resumeUrl: 'https://hawanatamang.com.np/Hawana_CV.pdf',
+  resumeUrl: 'https://hawanatamang.com.np/HawanaTamang_CV.pdf',
 };
 
 export const navItems = [
