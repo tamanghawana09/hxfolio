@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+}
+const {
+  eyebrow = 'The next build',
+  title = 'Let’s turn the idea into a dependable product.',
+  text = 'Share the problem, current stack, and desired outcome. I’ll respond with the most practical next step.',
+} = Astro.props;
+---
+<section class="section cta-section">
+  <div class="shell">
+    <div class="cta-card reveal-scale">
+      <div class="cta-orb cta-orb-one"></div>
+      <div class="cta-orb cta-orb-two"></div>
+      <div class="cta-copy">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="button button-primary magnetic" href="/contact">Start a conversation <Icon name="arrow-up-right" /></a>
+        <a class="button button-ghost magnetic" href="/projects">Explore the work <Icon name="arrow-right" /></a>
+      </div>
+    </div>
+  </div>
+</section>

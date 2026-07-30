@@ -1,0 +1,194 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import CTA from '../components/CTA.astro';
+import { experience, projects, site, skills } from '../data/site';
+
+const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const skillLoop = Object.values(skills).flat();
+---
+<BaseLayout>
+  <section class="hero section" data-hero>
+    <div class="hero-aura hero-aura-one"></div>
+    <div class="hero-aura hero-aura-two"></div>
+    <div class="hero-aura hero-aura-three"></div>
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <div class="status-pill hero-reveal">
+          <span class="status-dot"></span>
+          {site.availability}
+        </div>
+        <p class="hero-role hero-reveal">Backend Developer <span>×</span> WordPress Engineer</p>
+        <h1 class="hero-title" aria-label="Hawana Tamang builds dependable digital products">
+          <span class="hero-line"><span>Engineering</span></span>
+          <span class="hero-line"><span>the web with</span></span>
+          <span class="hero-line hero-line-accent"><span>clarity & energy.</span></span>
+        </h1>
+        <p class="hero-description hero-reveal">
+          I build scalable Spring Boot APIs, custom WordPress systems, and polished interfaces that stay fast when the project gets real.
+        </p>
+        <div class="hero-actions hero-reveal">
+          <a class="button button-primary magnetic" href="/projects">View selected work <Icon name="arrow-up-right" /></a>
+          <a class="button button-ghost magnetic" href="/about">The person behind the code <Icon name="arrow-right" /></a>
+        </div>
+        <div class="hero-proof hero-reveal">
+          <div><strong>2+</strong><span>Years experience</span></div>
+          <div><strong>20+</strong><span>Projects shipped</span></div>
+          <div><strong>4</strong><span>Core stacks</span></div>
+        </div>
+      </div>
+
+      <div class="hero-stage hero-reveal" data-hero-stage>
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="orbit orbit-three"></div>
+        <div class="hero-terminal" data-tilt-card>
+          <div class="terminal-bar">
+            <div><span></span><span></span><span></span></div>
+            <small>hawana.dev / system</small>
+          </div>
+          <div class="terminal-body">
+            <p><span class="code-key">const</span> developer = {'{'}</p>
+            <p>&nbsp;&nbsp;name: <span class="code-value">'Hawana Tamang'</span>,</p>
+            <p>&nbsp;&nbsp;focus: [</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-value">'Spring Boot'</span>,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-value">'WordPress'</span>,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-value">'Clean systems'</span></p>
+            <p>&nbsp;&nbsp;],</p>
+            <p>&nbsp;&nbsp;shipping: <span class="code-bool">true</span></p>
+            <p>{'}'};</p>
+            <p class="terminal-result"><span>✓</span> Ready to build.</p>
+          </div>
+        </div>
+        <div class="floating-chip chip-java">JAVA</div>
+        <div class="floating-chip chip-wp">WP</div>
+        <div class="floating-chip chip-api">REST API</div>
+        <div class="floating-chip chip-db">POSTGRES</div>
+        <div class="hero-note">
+          <Icon name="code" size={18} />
+          <span>Bhaktapur, Nepal<br /><strong>UTC +5:45</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-cue hero-reveal">
+      <span>Scroll to explore</span>
+      <i></i>
+    </div>
+  </section>
+
+  <section class="marquee-section" aria-label="Capabilities">
+    <div class="marquee-track" data-marquee>
+      {[...skillLoop, ...skillLoop].map((skill) => (
+        <span>{skill}<i>✦</i></span>
+      ))}
+    </div>
+  </section>
+
+  <section class="section intro-section">
+    <div class="shell intro-grid">
+      <div class="sticky-label reveal-up">
+        <span>01</span>
+        <p>What I bring</p>
+      </div>
+      <div class="intro-statement">
+        <p class="intro-big split-heading" data-split>
+          Not another portfolio full of vague claims. The work is designed around reliable systems, useful interfaces, and measurable client outcomes.
+        </p>
+        <div class="intro-columns reveal-up">
+          <p>Backend engineering gives the product structure. WordPress experience keeps the editing experience practical. Frontend craft makes the result feel intentional.</p>
+          <a class="text-link magnetic" href="/about">Read my story <Icon name="arrow-up-right" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section projects-preview">
+    <div class="shell">
+      <SectionTitle
+        eyebrow="02 / Selected work"
+        title="Built for the messy middle between idea and production."
+        text="A mix of backend systems, custom WordPress engineering, migrations, search experiences, and conversion-focused service pages."
+      />
+      <div class="featured-project-grid">
+        {featuredProjects.map((project) => <ProjectCard project={project} compact />)}
+      </div>
+      <div class="section-end reveal-up">
+        <p>Six featured projects. Eleven documented builds.</p>
+        <a class="button button-ghost magnetic" href="/projects">See every project <Icon name="arrow-right" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section expertise-section">
+    <div class="expertise-aura aura aura-blue"></div>
+    <div class="shell">
+      <SectionTitle
+        eyebrow="03 / Working stack"
+        title="Depth where it matters. Range where it helps."
+        text="The stack is deliberately practical: strong backend foundations, a mature CMS workflow, and enough frontend fluency to control the complete experience."
+      />
+      <div class="expertise-grid">
+        {Object.entries(skills).map(([group, items], groupIndex) => (
+          <article class="expertise-card reveal-up" style={`--delay:${groupIndex * 0.08}s`}>
+            <div class="expertise-card-head">
+              <span>0{groupIndex + 1}</span>
+              <h3>{group}</h3>
+            </div>
+            <div class="expertise-list">
+              {items.map((skill, index) => (
+                <div><span>{skill}</span><small>{String(index + 1).padStart(2, '0')}</small></div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section experience-preview">
+    <div class="shell experience-grid">
+      <div class="experience-heading">
+        <p class="eyebrow reveal-up">04 / Experience</p>
+        <h2 class="split-heading" data-split>Learning fast.<br />Shipping faster.</h2>
+        <p class="reveal-up">From custom Gutenberg development to Spring Boot services and digital team leadership.</p>
+        <a class="button button-ghost magnetic reveal-up" href="/resume">View full resume <Icon name="arrow-up-right" /></a>
+      </div>
+      <div class="timeline-list" data-timeline>
+        <div class="timeline-line"><span data-timeline-progress></span></div>
+        {experience.map((item, index) => (
+          <article class="timeline-item reveal-up">
+            <span class="timeline-dot"></span>
+            <div class="timeline-period">{item.period}</div>
+            <div class="timeline-copy">
+              <span>0{index + 1}</span>
+              <h3>{item.role}</h3>
+              <p>{item.company}</p>
+              <ul>{item.points.slice(0, 2).map((point) => <li>{point}</li>)}</ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section blog-preview">
+    <div class="shell">
+      <SectionTitle
+        eyebrow="05 / Writing"
+        title="Notes from the build process."
+        text="Writing about WordPress, backend thinking, AI-assisted development, and what changes when tools evolve faster than habits."
+      />
+      <div class="blog-grid">
+        {posts.slice(0, 3).map((post, index) => <BlogCard post={post} featured={index === 0} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

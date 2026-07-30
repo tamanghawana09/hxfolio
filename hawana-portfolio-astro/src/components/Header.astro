@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import { navItems, site } from '../data/site';
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+<header class="site-header" data-header>
+  <div class="shell header-shell">
+    <a class="brand magnetic" href="/" aria-label={`${site.name} home`}>
+      <span class="brand-mark">HT</span>
+      <span class="brand-copy">
+        <strong>Hawana</strong>
+        <small>Backend × WordPress</small>
+      </span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {navItems.map((item) => (
+        <a class:list={['nav-link', { active: isActive(item.href) }]} href={item.href}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <a class="header-cta magnetic" href="/contact">
+      <span>Start a project</span>
+      <Icon name="arrow-up-right" size={17} />
+    </a>
+
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-toggle>
+      <span class="menu-open"><Icon name="menu" /></span>
+      <span class="menu-close"><Icon name="close" /></span>
+    </button>
+  </div>
+
+  <div class="mobile-panel" data-mobile-panel>
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      {navItems.map((item, index) => (
+        <a class:list={['mobile-nav-link', { active: isActive(item.href) }]} href={item.href} style={`--index:${index}`}>
+          <span>0{index + 1}</span>
+          {item.label}
+          <Icon name="arrow-up-right" />
+        </a>
+      ))}
+      <a class="button button-primary mobile-contact" href="/contact">Let’s work together</a>
+    </nav>
+  </div>
+</header>

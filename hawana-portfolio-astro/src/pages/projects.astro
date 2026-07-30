@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import CTA from '../components/CTA.astro';
+import { projects } from '../data/site';
+---
+<BaseLayout
+  title="Projects | Hawana Tamang"
+  description="Selected backend, WordPress, migration, search, and full-stack projects by Hawana Tamang."
+>
+  <PageHero
+    eyebrow="Projects / 11 documented builds"
+    title="Work that solved a real constraint."
+    text="The surface changes from project to project. The standard does not: understand the business problem, choose the smallest dependable architecture, and ship the result cleanly."
+    meta="Spring Boot · WordPress · Webflow · Laravel"
+  />
+
+  <section class="section projects-page">
+    <div class="shell project-list">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <CTA
+    eyebrow="A project worth discussing?"
+    title="Bring the constraint, not just the feature list."
+    text="The strongest briefs explain the problem, users, current stack, deadline, and what success must look like."
+  />
+</BaseLayout>

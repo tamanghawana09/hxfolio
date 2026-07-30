@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import { navItems, site, socials } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="footer-aura aura aura-yellow"></div>
+  <div class="shell footer-grid">
+    <div class="footer-intro reveal-up">
+      <span class="eyebrow"><Icon name="spark" size={16} /> Available for thoughtful work</span>
+      <h2>Have a hard problem worth solving?</h2>
+      <p>Backend architecture, WordPress engineering, or a full web build. Bring the brief; I’ll bring clarity and execution.</p>
+      <a class="button button-primary magnetic" href={`mailto:${site.email}`}>
+        <span>{site.email}</span><Icon name="arrow-up-right" />
+      </a>
+    </div>
+
+    <div class="footer-links reveal-up">
+      <div>
+        <p class="footer-label">Navigate</p>
+        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href="/resume">Resume</a>
+      </div>
+      <div>
+        <p class="footer-label">Connect</p>
+        {socials.map((item) => <a href={item.href} target="_blank" rel="noreferrer">{item.label}</a>)}
+      </div>
+      <div>
+        <p class="footer-label">Based in</p>
+        <span>{site.location}</span>
+        <span>{site.timezone}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell footer-bottom">
+    <p>© {year} Hawana Tamang. Built with Astro and GSAP.</p>
+    <a href="#top" data-scroll-top>Back to top ↑</a>
+  </div>
+</footer>

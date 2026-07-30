@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import CTA from '../components/CTA.astro';
+import Icon from '../components/Icon.astro';
+import { skills, storyTimeline, values } from '../data/site';
+---
+<BaseLayout
+  title="About | Hawana Tamang"
+  description="The story, values, technical stack, and background of Hawana Tamang, a backend developer and WordPress engineer from Bhaktapur, Nepal."
+>
+  <PageHero
+    eyebrow="About / The person behind the code"
+    title="Curious enough to begin. Stubborn enough to finish."
+    text="I’m Hawana Tamang, a programmer from Bhaktapur. My days sit between Spring Boot backends, custom WordPress engineering, technical writing, and the next thing I have not understood yet."
+    meta="BIT · KIST College · Purbanchal University"
+  />
+
+  <section class="section about-intro">
+    <div class="shell about-intro-grid">
+      <div class="about-monogram reveal-scale" data-tilt-card>
+        <div class="about-monogram-aura"></div>
+        <span>HT</span>
+        <small>Bhaktapur<br />Nepal</small>
+      </div>
+      <div class="about-copy">
+        <p class="eyebrow reveal-up">01 / My story</p>
+        <h2 class="split-heading" data-split>It started with sockets, threads, and a lot of confusion.</h2>
+        <div class="about-columns reveal-up">
+          <p>A two-way C++ chat application taught me more about how computers communicate than a textbook could. From there came Java, a Whack-A-Mole game, and a growing obsession with how backend systems are structured.</p>
+          <p>After shipping WordPress projects for international clients at WPDrops, I built AniMatch end-to-end with Spring Boot and PostgreSQL. Now I’m going deeper into backend engineering while staying sharp on the WordPress side.</p>
+        </div>
+        <div class="stat-row reveal-up">
+          <div><strong>2+</strong><span>Years experience</span></div>
+          <div><strong>20+</strong><span>Projects shipped</span></div>
+          <div><strong>4</strong><span>Stacks mastered</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section values-section">
+    <div class="shell">
+      <SectionTitle
+        eyebrow="02 / What I value"
+        title="Standards that survive changing tools."
+        text="Frameworks change. The principles underneath dependable work are slower to expire."
+      />
+      <div class="values-grid">
+        {values.map((value, index) => (
+          <article class={`value-card accent-${value.accent} reveal-up`}>
+            <span>0{index + 1}</span>
+            <h3>{value.title}</h3>
+            <p>{value.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section story-section">
+    <div class="shell story-grid">
+      <div class="story-heading">
+        <p class="eyebrow reveal-up">03 / Timeline</p>
+        <h2 class="split-heading" data-split>The path so far.</h2>
+        <p class="reveal-up">Not linear. Definitely useful.</p>
+      </div>
+      <div class="story-timeline" data-timeline>
+        <div class="story-line"><span data-timeline-progress></span></div>
+        {storyTimeline.map((item) => (
+          <article class="story-item reveal-up">
+            <span class="story-dot"></span>
+            <div class="story-year">{item.year}</div>
+            <div><h3>{item.title}</h3><p>{item.meta}</p></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section full-stack-section">
+    <div class="shell">
+      <SectionTitle eyebrow="04 / Full stack" title="The tools I can defend in a code review." />
+      <div class="stack-board reveal-scale">
+        {Object.entries(skills).map(([group, items], groupIndex) => (
+          <div class="stack-column">
+            <div class="stack-heading"><span>0{groupIndex + 1}</span><h3>{group}</h3></div>
+            {items.map((item) => <div class="stack-skill"><span>{item}</span><i></i></div>)}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section outside-section">
+    <div class="shell outside-grid">
+      <div>
+        <p class="eyebrow reveal-up">05 / Outside of code</p>
+        <h2 class="split-heading" data-split>A wider life makes better work.</h2>
+      </div>
+      <div class="outside-cards">
+        <article class="outside-card reveal-up"><Icon name="code" /><h3>Technical writing</h3><p>I write about backend concepts, APIs, databases, auth patterns, WordPress, and the things I am trying to understand properly.</p></article>
+        <article class="outside-card reveal-up"><Icon name="pin" /><h3>Exploring Bhaktapur</h3><p>Living in one of Nepal’s most historic cities means there is always a useful walk after a stubborn debugging session.</p></article>
+        <article class="outside-card reveal-up"><Icon name="spark" /><h3>Building for fun</h3><p>Side projects without clients or deadlines are where the Whack-A-Mole game, chat application, and AniMatch began.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <CTA title="Want to work together?" text="I’m open to backend roles, WordPress projects, freelance work, and serious conversations about useful software." />
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import VideoCard from '../components/VideoCard.astro';
+import CTA from '../components/CTA.astro';
+import { videos } from '../data/site';
+---
+<BaseLayout
+  title="Videos | Hawana Tamang"
+  description="Nepali programming tutorials, developer updates, and problem-solving videos by Hawana Tamang."
+>
+  <PageHero
+    eyebrow="Videos / YouTube"
+    title="Learn the concept. See the implementation."
+    text="Nepali-friendly developer tutorials, problem-solving walkthroughs, and honest updates from the backend engineering journey."
+    meta="Programming · Career · Learning in public"
+  />
+
+  <section class="section videos-page">
+    <div class="shell video-grid">
+      {videos.map((video, index) => <VideoCard video={video} index={index} />)}
+    </div>
+  </section>
+
+  <CTA eyebrow="Prefer written detail?" title="The blog goes deeper into the decisions behind the code." />
+</BaseLayout>

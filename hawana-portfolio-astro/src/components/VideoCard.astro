@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  video: { title: string; subtitle: string; date: string; id: string; };
+  index: number;
+}
+const { video, index } = Astro.props;
+---
+<article class="video-card" data-video-card>
+  <a href={`https://youtube.com/watch?v=${video.id}`} target="_blank" rel="noreferrer">
+    <div class="video-thumb">
+      <img src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`} alt="" loading="lazy" />
+      <div class="video-thumb-overlay"></div>
+      <span class="video-index">0{index + 1}</span>
+      <span class="play-button"><Icon name="youtube" size={30} /></span>
+    </div>
+    <div class="video-copy">
+      <div><span>{video.date}</span><span>YouTube</span></div>
+      <h2>{video.title}</h2>
+      <p>{video.subtitle}</p>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,51 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+interface Props { post: CollectionEntry<'blog'>; }
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const date = post.data.pubDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+---
+<BaseLayout title={`${post.data.title} | Hawana Tamang`} description={post.data.description}>
+  <article class={`article-page accent-${post.data.accent}`}>
+    <header class="article-hero section">
+      <div class="article-aura"></div>
+      <div class="shell article-hero-inner">
+        <a class="back-link hero-reveal" href="/blog"><Icon name="arrow-right" size={18} /> All posts</a>
+        <div class="article-category hero-reveal">{post.data.category}</div>
+        <h1 class="hero-reveal">{post.data.title}</h1>
+        <p class="article-description hero-reveal">{post.data.description}</p>
+        <div class="article-meta hero-reveal">
+          <span>Hawana Tamang</span><i></i><span>{date}</span><i></i><span>{post.data.readTime}</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell article-layout">
+      <aside class="article-sidebar">
+        <p>On this page</p>
+        <nav>
+          {headings.filter((heading) => heading.depth <= 2).map((heading) => (
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          ))}
+        </nav>
+        <div class="article-tags">
+          {post.data.tags.map((tag) => <span>{tag}</span>)}
+        </div>
+      </aside>
+      <div class="prose" data-article-content>
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <CTA eyebrow="Keep the conversation going" title="Good ideas improve through implementation, not applause." />
+</BaseLayout>

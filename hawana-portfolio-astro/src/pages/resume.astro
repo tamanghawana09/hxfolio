@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CTA from '../components/CTA.astro';
+import { academicProjects, experience, projects, site, skills } from '../data/site';
+---
+<BaseLayout
+  title="Resume | Hawana Tamang"
+  description="Resume, experience, education, skills, and project history for Hawana Tamang."
+>
+  <PageHero
+    eyebrow="Resume / Backend Developer"
+    title="A practical engineer with production WordPress depth."
+    text="Two years of web development experience, a strong foundation in Java backend architecture, and a track record of delivering client websites, custom blocks, migrations, forms, and full-stack applications."
+    meta="Bhaktapur · Available for remote work"
+  />
+
+  <section class="section resume-page">
+    <div class="shell resume-shell">
+      <aside class="resume-sidebar reveal-up">
+        <div class="resume-contact-card">
+          <span class="resume-avatar">HT</span>
+          <h2>{site.name}</h2>
+          <p>{site.role}</p>
+          <a href={`mailto:${site.email}`}><Icon name="mail" /> {site.email}</a>
+          <a href={`tel:${site.phone.replaceAll(' ', '')}`}><Icon name="phone" /> {site.phone}</a>
+          <a href={`tel:${site.secondPhone.replaceAll(' ', '')}`}><Icon name="phone" /> {site.secondPhone}</a>
+          <span><Icon name="pin" /> {site.location}</span>
+          <a class="button button-primary" href={site.resumeUrl} target="_blank" rel="noreferrer"><Icon name="download" /> Download original CV</a>
+        </div>
+        <div class="resume-skill-card">
+          <h3>Core skills</h3>
+          {Object.values(skills).flat().map((skill) => <span>{skill}</span>)}
+        </div>
+      </aside>
+
+      <div class="resume-main">
+        <section class="resume-block reveal-up">
+          <p class="eyebrow">Profile</p>
+          <h2>Detail-oriented software engineer focused on dependable backend systems.</h2>
+          <p>Experienced in performance-conscious WordPress development and now specializing further in scalable server-side applications with Java and Spring Boot, REST API design, secure authentication, relational databases, and the migration of complex business logic into maintainable systems.</p>
+        </section>
+
+        <section class="resume-block">
+          <p class="eyebrow reveal-up">Experience</p>
+          <div class="resume-experience-list">
+            {experience.map((item) => (
+              <article class="resume-job reveal-up">
+                <div><span>{item.period}</span><h3>{item.role}</h3><p>{item.company}</p></div>
+                <ul>{item.points.map((point) => <li>{point}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="resume-block reveal-up">
+          <p class="eyebrow">Education</p>
+          <div class="education-card">
+            <div><span>November 2025</span><h3>Bachelor in Information Technology (BIT)</h3><p>KIST College · Purbanchal University</p></div>
+            <p>Relevant coursework: Advanced Web Development, Database Management, and Software Engineering.</p>
+          </div>
+        </section>
+
+        <section class="resume-block reveal-up">
+          <p class="eyebrow">Academic builds</p>
+          <div class="academic-projects">
+            {academicProjects.map((project, index) => (
+              <div><span>0{index + 1}</span><h3>{project.title}</h3><p>{project.stack}</p></div>
+            ))}
+          </div>
+        </section>
+
+        <section class="resume-block">
+          <p class="eyebrow reveal-up">Selected project history</p>
+          <div class="resume-project-grid">
+            {projects.map((project) => (
+              <a class={`resume-project accent-${project.accent} reveal-up`} href={project.href} target="_blank" rel="noreferrer">
+                <span>{project.number}</span><h3>{project.title}</h3><p>{project.description}</p><Icon name="arrow-up-right" />
+              </a>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <CTA eyebrow="The resume is context" title="The real question is whether I can solve your problem." />
+</BaseLayout>

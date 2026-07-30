@@ -1,0 +1,38 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  post: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      pubDate: Date;
+      readTime: string;
+      category: string;
+      tags: string[];
+      accent: string;
+    };
+  };
+  featured?: boolean;
+}
+const { post, featured = false } = Astro.props;
+const date = post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+<article class:list={['blog-card', `accent-${post.data.accent}`, { featured }]} data-blog-card>
+  <a class="blog-card-link" href={`/blog/${post.id}`} aria-label={`Read ${post.data.title}`}>
+    <div class="blog-art">
+      <span>{post.data.category}</span>
+      <div class="blog-symbol">{post.data.title.slice(0, 1)}</div>
+      <div class="blog-aura"></div>
+    </div>
+    <div class="blog-card-content">
+      <div class="blog-meta"><span>{date}</span><span>{post.data.readTime}</span></div>
+      <h2>{post.data.title}</h2>
+      <p>{post.data.description}</p>
+      <div class="blog-card-footer">
+        <div class="tag-list">{post.data.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}</div>
+        <span class="round-icon"><Icon name="arrow-up-right" /></span>
+      </div>
+    </div>
+  </a>
+</article>

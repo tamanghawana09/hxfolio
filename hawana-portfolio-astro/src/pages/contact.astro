@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { faqs, site, socials } from '../data/site';
+---
+<BaseLayout
+  title="Contact | Hawana Tamang"
+  description="Contact Hawana Tamang for backend development, WordPress engineering, full-stack projects, freelance work, or remote roles."
+>
+  <PageHero
+    eyebrow="Contact / Available for work"
+    title="Let’s build something useful, not merely impressive."
+    text="Share the current problem, the user who feels it, your existing stack, and the outcome you need. I typically reply within 24 hours on weekdays."
+    meta="Backend · WordPress · Full-stack · Remote"
+  />
+
+  <section class="section contact-section">
+    <div class="shell contact-grid">
+      <div class="contact-form-wrap reveal-up">
+        <div class="form-head">
+          <span>Send a message</span>
+          <small>All fields are required</small>
+        </div>
+        <form class="contact-form" data-contact-form>
+          <div class="form-row">
+            <label>First name<input type="text" name="firstName" autocomplete="given-name" required /></label>
+            <label>Last name<input type="text" name="lastName" autocomplete="family-name" required /></label>
+          </div>
+          <label>Email address<input type="email" name="email" autocomplete="email" required /></label>
+          <label>
+            I’m looking for
+            <select name="topic" required>
+              <option value="">Select a topic</option>
+              <option>Backend development (Spring Boot / Java)</option>
+              <option>WordPress development</option>
+              <option>Full-stack project</option>
+              <option>Freelance / contract work</option>
+              <option>Full-time role</option>
+              <option>Just saying hello</option>
+            </select>
+          </label>
+          <label>
+            Message
+            <textarea name="message" maxlength="500" required></textarea>
+            <span class="character-count"><span data-char-count>0</span> / 500</span>
+          </label>
+          <button class="button button-primary magnetic" type="submit">Prepare email <Icon name="arrow-up-right" /></button>
+          <p class="form-note" data-form-note>This static portfolio opens the completed message in your email app. A server endpoint can be connected later without redesigning the form.</p>
+        </form>
+      </div>
+
+      <aside class="contact-aside">
+        <div class="contact-card reveal-up">
+          <span class="status-pill"><span class="status-dot"></span> Available for work</span>
+          <h2>Direct contact</h2>
+          <a href={`mailto:${site.email}`}><Icon name="mail" /><span><small>Email</small>{site.email}</span></a>
+          <a href={`tel:${site.phone.replaceAll(' ', '')}`}><Icon name="phone" /><span><small>Phone / WhatsApp</small>{site.phone}</span></a>
+          <div><Icon name="pin" /><span><small>Location</small>{site.location}<br />{site.timezone}</span></div>
+        </div>
+        <div class="social-contact-grid reveal-up">
+          {socials.map((social) => (
+            <a href={social.href} target="_blank" rel="noreferrer">{social.label}<Icon name="arrow-up-right" /></a>
+          ))}
+        </div>
+        <p class="response-note reveal-up"><strong>Response time:</strong> {site.responseTime} For urgent work, calling or WhatsApp is fastest.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section faq-section">
+    <div class="shell faq-grid">
+      <div class="faq-heading">
+        <p class="eyebrow reveal-up">Common questions</p>
+        <h2 class="split-heading" data-split>Useful answers before the first call.</h2>
+      </div>
+      <div class="accordion" data-accordion>
+        {faqs.map((faq, index) => (
+          <details class="faq-item reveal-up" open={index === 0}>
+            <summary><span>0{index + 1}</span>{faq.question}<i>+</i></summary>
+            <div><p>{faq.answer}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
