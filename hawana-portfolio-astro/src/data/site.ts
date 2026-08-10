@@ -28,6 +28,7 @@ export const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hawana0911/' },
   { label: 'YouTube', href: 'https://www.youtube.com/channel/UCvUR3omHzCkwIUiF7-LgPYw' },
   { label: 'X / Twitter', href: 'https://twitter.com/HawanaTamang' },
+  { label: 'Tiktok', href: 'https://www.tiktok.com/@behindthe.code0911' }
 ];
 
 export type Accent = 'yellow' | 'blue' | 'coral' | 'mint' | 'violet';
