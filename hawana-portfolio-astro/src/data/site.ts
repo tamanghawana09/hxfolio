@@ -239,6 +239,15 @@ export const skills = {
 
 export const experience = [
   {
+    period: 'Aug 2026 – present',
+    company: 'Code for Nepal x DataCamp',
+    role: 'DataCamp Fellowship',
+    points: [
+      'Selected for the 2026 Data Fellowship by Code for Nepal in collaboration with DataCamp and Code for Nepal. ',
+      'Participating in a self-paced learning program focused on data analysis, data literacy, Python, AI fundamentals, and hands-on projects while engaging with a community of learners across Nepal.',
+    ],
+  },
+  {
     period: 'Jul 2026 – present',
     company: 'Khoja Nepal Pvt Ltd',
     role: 'Web Developer & Digital Team Lead',
