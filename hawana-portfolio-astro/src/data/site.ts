@@ -48,7 +48,24 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    number: '01',
+  number: '01',
+  title: 'Inkora',
+  description:
+    'A modern, minimal blogging platform built with React, featuring real-time article discovery through the DEV.to API.',
+  details: [
+    'Supports article search, technology-based filtering, and paginated results.',
+    'Uses reusable React components with client-side routing for a structured frontend.',
+    'Designed with a responsive dark UI and deployed on Vercel.',
+  ],
+  tags: ['React', 'JavaScript', 'Tailwind CSS', 'DEV.to API', 'Vite'],
+  href: 'https://inkora-seven.vercel.app/',
+  linkLabel: 'View project',
+  accent: 'blue',
+  featured: true,
+  type: 'Blogging platform',
+},
+  {
+    number: '02',
     title: 'AniMatch',
     description:
       'A full-stack anime discovery platform with a Spring Boot backend, server-rendered UI, and optimized relational data models.',
@@ -65,7 +82,7 @@ export const projects: Project[] = [
     type: 'Full-stack platform',
   },
   {
-    number: '02',
+    number: '03',
     title: 'PvmLogistiek',
     description:
       'A complete WordPress website built from scratch with responsive layouts, fast loading, and tailored client functionality.',
@@ -82,7 +99,7 @@ export const projects: Project[] = [
     type: 'Custom WordPress',
   },
   {
-    number: '03',
+    number: '04',
     title: 'Alecto Australia',
     description:
       'Advanced dual-search and filtering functionality designed to improve recruiter workflows and candidate discovery.',
@@ -99,7 +116,7 @@ export const projects: Project[] = [
     type: 'Search experience',
   },
   {
-    number: '04',
+    number: '05',
     title: 'Alison Deyette',
     description:
       'A full theme and content migration completed without content loss, with search-friendly on-page structure and hosting migration.',
@@ -116,7 +133,7 @@ export const projects: Project[] = [
     type: 'Migration & SEO',
   },
   {
-    number: '05',
+    number: '06',
     title: 'Curtis Myrie',
     description:
       'A multi-page rebuild and redesign using Divi, closely matched to supplied design references and optimized across devices.',
@@ -133,7 +150,7 @@ export const projects: Project[] = [
     type: 'Website redesign',
   },
   {
-    number: '06',
+    number: '07',
     title: 'Moorebank Amcal Pharmacy',
     description:
       'A modern, responsive sleep apnoea service page with integrated forms and a clearer journey from education to enquiry.',
@@ -150,7 +167,7 @@ export const projects: Project[] = [
     type: 'Healthcare landing page',
   },
   {
-    number: '07',
+    number: '08',
     title: 'Klussenbedrijf Schagen',
     description:
       'A complete page recreation with a refreshed layout, improved usability, consistent styling, and performance-focused implementation.',
@@ -166,7 +183,7 @@ export const projects: Project[] = [
     type: 'Website rebuild',
   },
   {
-    number: '08',
+    number: '09',
     title: 'Clownbijouxxx',
     description:
       'An Avada-based reconstruction that modernized the experience while retaining the brand identity and improving page speed.',
@@ -182,7 +199,7 @@ export const projects: Project[] = [
     type: 'Theme reconstruction',
   },
   {
-    number: '09',
+    number: '10',
     title: 'Magnus Schaak',
     description:
       'A sponsor showcase page with clear visual tiers, linked sponsor identities, and responsive presentation.',
@@ -198,7 +215,7 @@ export const projects: Project[] = [
     type: 'Feature page',
   },
   {
-    number: '10',
+    number: '11',
     title: 'Landen Zeezicht',
     description:
       'A Gravity Forms reservation rebuild with business-rule validation and a safe staging-to-production rollout.',
@@ -214,7 +231,7 @@ export const projects: Project[] = [
     type: 'Form engineering',
   },
   {
-    number: '11',
+    number: '12',
     title: 'Job Portal Website',
     description:
       'A Laravel and MySQL job platform with role-based authentication, job publishing, search, filtering, and application management.',
