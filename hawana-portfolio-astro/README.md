@@ -20,7 +20,7 @@ A complete light-mode portfolio redesign built with Astro and GSAP. The content 
 - TypeScript
 - GSAP + ScrollTrigger
 - Astro Content Collections
-- Static sitemap
+- Automatic sitemap generation with `@astrojs/sitemap`
 - Plain semantic HTML and CSS
 - Static output, suitable for Netlify, Vercel, Cloudflare Pages, GitHub Pages, or standard hosting
 
@@ -41,6 +41,8 @@ npm run preview
 ```
 
 The static build is generated in `dist/`.
+
+Each production build generates `dist/sitemap-index.xml` and `dist/sitemap-0.xml` from the site routes, including blog posts. `public/robots.txt` points search engines to `https://hawanatamang.com.np/sitemap-index.xml`.
 
 ## Editing content
 
