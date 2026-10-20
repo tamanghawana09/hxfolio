@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import BlogCard from './BlogCard.astro';
+import CoffeeSupport from './CoffeeSupport.astro';
+import CTA from './CTA.astro';
+import { BLOG_PAGE_SIZE } from '../lib/blog';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  total: number;
+  currentPage: number;
+}
+const { posts, total, currentPage } = Astro.props;
+const totalPages = Math.max(1, Math.ceil(total / BLOG_PAGE_SIZE));
+const pageUrl = (page: number) => page === 1 ? '/blog' : `/blog/page/${page}`;
+---
+<BaseLayout
+  title={currentPage === 1 ? 'Blog | Hawana Tamang' : `Blog - Page ${currentPage} | Hawana Tamang`}
+  description="Articles about WordPress engineering, backend development, AI, design systems, learning, and shipping software."
+>
+  <PageHero
+    eyebrow="The blog / Learning in public"
+    title="Ideas become sharper when they have to survive explanation."
+    text="Notes on building websites, backend systems, adapting to AI, and the practical decisions hidden behind polished output."
+    meta={`${total} published posts`}
+  />
+
+  <section class="section blog-page">
+    <div class="shell blog-grid blog-grid-page">
+      {posts.map((post, index) => <BlogCard post={post} featured={index === 0} />)}
+    </div>
+    {totalPages > 1 && (
+      <nav class="shell blog-pagination" aria-label="Blog pagination">
+        <p>Page {currentPage} of {totalPages}</p>
+        <div class="pagination-links">
+          {currentPage > 1 && <a href={pageUrl(currentPage - 1)} rel="prev">Previous</a>}
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+            <a href={pageUrl(page)} aria-label={`Page ${page}`} aria-current={page === currentPage ? 'page' : undefined}>{page}</a>
+          ))}
+          {currentPage < totalPages && <a href={pageUrl(currentPage + 1)} rel="next">Next</a>}
+        </div>
+      </nav>
+    )}
+  </section>
+
+  <CTA eyebrow="Have a technical question?" title="A useful conversation can become the next article." />
+  <CoffeeSupport />
+</BaseLayout>
+
+<style>
+  .blog-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .blog-pagination p {
+    margin: 0;
+    color: var(--text-soft);
+  }
+  .pagination-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pagination-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .pagination-links a:hover,
+  .pagination-links a[aria-current='page'] {
+    background: var(--yellow);
+    border-color: var(--text);
+  }
+  .pagination-links a:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 4px;
+  }
+</style>

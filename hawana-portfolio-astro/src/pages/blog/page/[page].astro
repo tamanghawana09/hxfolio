@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import BlogListing from '../../../components/BlogListing.astro';
+import { BLOG_PAGE_SIZE, getBlogPosts } from '../../../lib/blog';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getBlogPosts();
+  return paginate(posts, { pageSize: BLOG_PAGE_SIZE }).filter(
+    ({ props }) => props.page.currentPage > 1,
+  );
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { page } = Astro.props;
+---
+<BlogListing posts={page.data} total={page.total} currentPage={page.currentPage} />
