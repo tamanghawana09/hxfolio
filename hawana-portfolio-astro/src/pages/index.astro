@@ -5,6 +5,7 @@ import Icon from '../components/Icon.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import BlogCard from '../components/BlogCard.astro';
+import CoffeeSupport from '../components/CoffeeSupport.astro';
 import CTA from '../components/CTA.astro';
 import { experience, projects, site, skills } from '../data/site';
 
@@ -47,6 +48,7 @@ const skillLoop = Object.values(skills).flat();
         <div class="orbit orbit-one"></div>
         <div class="orbit orbit-two"></div>
         <div class="orbit orbit-three"></div>
+        <div class="terminal-float">
         <div class="hero-terminal" data-tilt-card>
           <div class="terminal-bar">
             <div><span></span><span></span><span></span></div>
@@ -64,6 +66,7 @@ const skillLoop = Object.values(skills).flat();
             <p>{'}'};</p>
             <p class="terminal-result"><span>✓</span> Ready to build.</p>
           </div>
+        </div>
         </div>
         <div class="floating-chip chip-java">JAVA</div>
         <div class="floating-chip chip-wp">WP</div>
@@ -191,4 +194,5 @@ const skillLoop = Object.values(skills).flat();
   </section>
 
   <CTA />
+  <CoffeeSupport />
 </BaseLayout>

@@ -99,7 +99,7 @@ function initCursor() {
 
 function initMagnetic() {
   if (window.matchMedia('(pointer: coarse)').matches || reducedMotion) return;
-  qsa<HTMLElement>('.magnetic').forEach((element) => {
+  qsa<HTMLElement>('.magnetic:not(.button):not(.header-cta)').filter((element) => !element.closest('[data-tilt-card]')).forEach((element) => {
     element.addEventListener('pointermove', (event) => {
       const rect = element.getBoundingClientRect();
       const x = event.clientX - rect.left - rect.width / 2;
@@ -112,28 +112,46 @@ function initMagnetic() {
   });
 }
 
+let tiltMedia: ReturnType<typeof gsap.matchMedia> | undefined;
+
 function initTiltCards() {
-  if (window.matchMedia('(pointer: coarse)').matches || reducedMotion) return;
-  qsa<HTMLElement>('[data-tilt-card]').forEach((card) => {
-    card.addEventListener('pointermove', (event) => {
-      const rect = card.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-      gsap.to(card, {
-        rotateY: x * 10,
-        rotateX: y * -8,
-        transformPerspective: 1100,
-        duration: 0.45,
-        ease: 'power2.out',
-      });
+  if (tiltMedia) return;
+  tiltMedia = gsap.matchMedia();
+  tiltMedia.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => {
+    const listeners = new AbortController();
+    const options = { signal: listeners.signal, passive: true };
+    qsa<HTMLElement>('[data-tilt-card]').forEach((card) => {
+      // Rotation stays independent of ScrollTrigger's reveal translation.
+      const rotateX = gsap.quickTo(card, 'rotationX', { duration: 0.4, ease: 'power2.out' });
+      const rotateY = gsap.quickTo(card, 'rotationY', { duration: 0.4, ease: 'power2.out' });
+      gsap.set(card, { transformPerspective: 1100 });
+      let bounds: DOMRect | undefined;
+      const reset = () => { bounds = undefined; rotateX(0); rotateY(0); };
+      card.addEventListener('pointerenter', () => { bounds = card.getBoundingClientRect(); }, options);
+      card.addEventListener('pointermove', (event) => {
+        if (event.pointerType === 'touch') return;
+        if ((event.target as Element).closest('a, button, input, select, textarea')) {
+          reset();
+          return;
+        }
+        bounds ??= card.getBoundingClientRect();
+        const x = gsap.utils.clamp(-0.5, 0.5, (event.clientX - bounds.left) / bounds.width - 0.5);
+        const y = gsap.utils.clamp(-0.5, 0.5, (event.clientY - bounds.top) / bounds.height - 0.5);
+        rotateX(-y * 8);
+        rotateY(x * 8);
+      }, options);
+      card.addEventListener('pointerleave', reset, options);
+      card.addEventListener('pointercancel', reset, options);
+      card.addEventListener('focusin', reset, options);
+      window.addEventListener('scroll', reset, options);
+      window.addEventListener('resize', reset, options);
     });
-    card.addEventListener('pointerleave', () => {
-      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.8, ease: 'elastic.out(1, 0.45)' });
-    });
+    return () => listeners.abort();
   });
 }
 
 function initHero() {
+  if (reducedMotion) return;
   const hero = qs<HTMLElement>('[data-hero]');
   const pageHero = qs<HTMLElement>('[data-page-hero]');
 
@@ -145,6 +163,14 @@ function initHero() {
       .from('.floating-chip', { scale: 0.5, autoAlpha: 0, duration: 0.6, stagger: 0.08, ease: 'back.out(1.8)' }, '-=0.5');
 
     if (!reducedMotion) {
+      // Float the wrapper so hover rotation on the terminal remains independent.
+      gsap.to('.terminal-float', {
+        y: -10,
+        duration: 3.2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
       gsap.to('.floating-chip', {
         y: (index) => index % 2 === 0 ? -13 : 13,
         rotate: (index) => index % 2 === 0 ? '+=3' : '-=3',
@@ -350,6 +376,8 @@ function initScrollTop() {
 }
 
 function init() {
+  if (document.documentElement.dataset.interactionsReady === 'true') return;
+  document.documentElement.dataset.interactionsReady = 'true';
   initHeader();
   initCursor();
   initMagnetic();
@@ -362,5 +390,9 @@ function init() {
   initScrollTop();
   window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
 }
+
+window.addEventListener('pagehide', (event) => {
+  if (!event.persisted) tiltMedia?.revert();
+});
 
 init();

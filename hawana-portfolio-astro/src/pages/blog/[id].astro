@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import CTA from '../../components/CTA.astro';
+import CoffeeSupport from '../../components/CoffeeSupport.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -45,6 +46,7 @@ const date = post.data.pubDate.toLocaleDateString('en-US', { month: 'long', day:
         <Content />
       </div>
     </div>
+    <CoffeeSupport />
   </article>
 
   <CTA eyebrow="Keep the conversation going" title="Good ideas improve through implementation, not applause." />

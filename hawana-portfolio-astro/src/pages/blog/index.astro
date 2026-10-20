@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import BlogCard from '../../components/BlogCard.astro';
+import CoffeeSupport from '../../components/CoffeeSupport.astro';
 import CTA from '../../components/CTA.astro';
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
@@ -24,4 +25,5 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueO
   </section>
 
   <CTA eyebrow="Have a technical question?" title="A useful conversation can become the next article." />
+  <CoffeeSupport />
 </BaseLayout>

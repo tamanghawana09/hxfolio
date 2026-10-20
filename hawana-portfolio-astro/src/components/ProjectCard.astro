@@ -4,7 +4,7 @@ import type { Project } from '../data/site';
 interface Props { project: Project; compact?: boolean; }
 const { project, compact = false } = Astro.props;
 ---
-<article class:list={['project-card', `accent-${project.accent}`, { compact }]} data-project-card>
+<article class:list={['project-card', `accent-${project.accent}`, { compact }]} data-project-card data-tilt-card>
   <div class="project-visual">
     <div class="project-gridlines"></div>
     <span class="project-number">{project.number}</span>

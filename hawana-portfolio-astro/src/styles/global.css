@@ -255,8 +255,23 @@ body.cursor-hover .cursor-aura {
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 }
 
-.button:hover {
-  transform: translateY(-3px);
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .button:hover,
+  .header-cta:hover { transform: translateY(-2px); }
+}
+
+.button.button:active,
+.header-cta:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.button:focus-visible,
+.header-cta:focus-visible,
+.nav-link:focus-visible,
+.mobile-nav-link:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
 }
 
 .button-primary {
@@ -409,12 +424,34 @@ body.cursor-hover .cursor-aura {
 }
 
 .nav-link:hover,
+.nav-link:focus-visible,
 .nav-link.active {
   color: var(--text);
   background: var(--yellow-soft);
 }
 
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 25%;
+  width: 50%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.18s ease;
+  pointer-events: none;
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after { transform: scaleX(1); }
+
+.mobile-nav-link { transition: color 0.2s ease, background 0.2s ease; }
+.mobile-nav-link:hover,
+.mobile-nav-link:focus-visible { background: var(--yellow-soft); color: var(--text); }
+
 .header-cta {
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-self: end;
@@ -576,25 +613,31 @@ body.cursor-hover .cursor-aura {
 }
 
 .hero-stage {
-  height: 700px;
-  min-height: 700px;
+  position: relative;
+  min-width: 0;
+  min-height: 600px;
   display: grid;
   place-items: center;
+  isolation: isolate;
+  perspective: 1100px;
+}
+
+.terminal-float {
+  position: relative;
+  z-index: 4;
+  width: min(420px, 89%);
 }
 
 .hero-terminal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 4;
-  width: min(420px, 89%);
+  position: relative;
+  width: 100%;
   overflow: hidden;
   border: 1px solid rgba(32, 40, 58, 0.14);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.78);
   box-shadow: var(--shadow-lg), inset 0 1px rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(22px);
-  transform: translate(-50%, -50%) rotateY(-7deg) rotateX(4deg);
+  transform: rotateY(0deg) rotateX(0deg);
   transform-style: preserve-3d;
 }
 
@@ -658,8 +701,11 @@ body.cursor-hover .cursor-aura {
 }
 
 .orbit {
+  position: absolute;
   top: 50%;
   left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
   border: 1px dashed rgba(32, 40, 58, 0.15);
   transform: translate(-50%, -50%) rotate(-15deg);
 }
@@ -889,12 +935,13 @@ body.cursor-hover .cursor-aura {
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.78);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.project-card:hover {
+.project-card:hover,
+.project-card:focus-within {
   box-shadow: var(--shadow-md);
-  transform: translateY(-8px);
+  border-color: var(--line-strong);
 }
 
 .project-visual {
@@ -960,9 +1007,6 @@ body.cursor-hover .cursor-aura {
   transform: translate(-50%, -50%) rotate(3deg);
 }
 
-.project-card:hover .visual-window {
-  transform: translate(-50%, -53%) rotate(0deg) scale(1.04);
-}
 
 .visual-window-bar {
   display: flex;
@@ -2987,7 +3031,7 @@ body.cursor-hover .cursor-aura {
   .hero-proof { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; }
   .hero-proof > div { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
   .hero-stage { min-height: 450px; }
-  .hero-terminal { width: 92%; }
+  .terminal-float { width: min(420px, 92%); }
   .terminal-body { padding: 26px 20px; font-size: .69rem; }
   .orbit-one { width: 390px; height: 390px; }
   .orbit-two { width: 310px; height: 310px; }
