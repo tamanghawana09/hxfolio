@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import '../styles/play.css';
+---
+<BaseLayout title="Play | Hawana Tamang" description="A little off-the-clock problem solving. Play N-Queens, find every solution, or watch a backtracking algorithm at work.">
+  <PageHero eyebrow="Play / A small detour" title="Off the clock."
+    text="I love chess and sudoku. This little puzzle blends the moves of one with the patient logic of the other. Take a break and give it a go."
+    meta="No timer. No rush. Just the next move." />
+  <section class="section play-section">
+    <div class="shell">
+      <SectionTitle eyebrow="01 / N-Queens" title="Give every queen her space." text="Place N queens on an N × N board so no two share a row, column, or diagonal." />
+      <div class="queens-game" data-queens-game>
+        <div class="queens-board-column">
+          <div class="queens-board-heading"><span class="eyebrow">Your next move</span><strong data-progress>Found 0 of 92</strong></div>
+          <div class="queens-board-frame">
+            <canvas data-board tabindex="0" role="application" aria-label="8 by 8 N-Queens board" aria-describedby="board-instructions" width="640" height="640">Use a browser with canvas support to play N-Queens.</canvas>
+          </div>
+          <p id="board-instructions" class="queens-note">Tap a square to place or remove a queen. Keyboard: focus the board, use arrow keys, then Enter or Space. Red squares and × marks mean a conflict; dots mark attacked squares.</p>
+          <p class="queens-stats" data-stats>Queens 0 / 8 · Conflicts 0 · Moves 0</p>
+        </div>
+        <div class="queens-panel">
+          <label class="queens-label" for="board-size">Make it your size</label>
+          <select id="board-size" data-size>{[4, 5, 6, 7, 8, 9, 10].map(n => <option value={n} selected={n === 8}>{n} × {n}</option>)}</select>
+          <div class="queens-actions">
+            <button class="button button-primary" type="button" data-hint>Hint</button>
+            <button class="button button-secondary" type="button" data-reset>Reset</button>
+            <button class="button button-secondary" type="button" data-solution>Show solution</button>
+          </div>
+          <p class="queens-status" data-status role="status" aria-live="polite" aria-atomic="true">Eight queens. One peaceful board. Where will you start?</p>
+          <p class="queens-note">Hints count toward your discoveries. Revealed solutions and solver demos do not. Reset clears the board, keeping your discoveries.</p>
+          <div class="queens-solver">
+            <h3>Watch the solver</h3>
+            <p class="queens-note">Start from an empty board and watch it try, check, and backtrack. Editing the board stops the demo.</p>
+            <label class="queens-label" for="solver-speed">Speed <output data-speed-label>8 steps / second</output></label>
+            <input id="solver-speed" data-speed type="range" min="1" max="30" value="8" />
+            <div class="queens-actions">
+              <button class="button button-primary" type="button" data-play>Play</button>
+              <button class="button button-secondary" type="button" data-pause disabled>Pause</button>
+              <button class="button button-secondary" type="button" data-step>Step</button>
+            </div>
+            <p class="queens-note">With reduced motion enabled, Play reveals the result instantly. Step still lets you inspect each decision.</p>
+          </div>
+        </div>
+      </div>
+      <noscript><p>This puzzle needs JavaScript. Enable it to place queens and watch the solver.</p></noscript>
+    </div>
+  </section>
+  <section class="section queens-explanation">
+    <div class="shell">
+      <SectionTitle eyebrow="02 / How it works" title="Try. Check. Take a step back." />
+      <div class="queens-explanation-grid">
+        <p>Backtracking builds an answer one choice at a time. The solver tries a queen in the next row. If she attacks an earlier queen, it tries the next square. If a row has no safe squares left, it goes back and moves an earlier queen.</p>
+        <p>N-Queens is a classic example because the rules are simple, but each choice changes what is possible next. An 8 × 8 board has <strong>92 solutions</strong>, or <strong>12 unique patterns</strong> after rotations and reflections. Here, all 92 arrangements count separately. Your discoveries are saved in this browser when storage is available.</p>
+      </div>
+      <a class="button button-secondary" href="/projects">Back to Projects ↗</a>
+    </div>
+  </section>
+  <script>import '../scripts/play';</script>
+</BaseLayout>
