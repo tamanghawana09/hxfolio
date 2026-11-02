@@ -1,8 +1,3 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function qs<T extends Element>(selector: string, root: ParentNode = document): T | null {
@@ -11,36 +6,6 @@ function qs<T extends Element>(selector: string, root: ParentNode = document): T
 
 function qsa<T extends Element>(selector: string, root: ParentNode = document): T[] {
   return Array.from(root.querySelectorAll<T>(selector));
-}
-
-function splitWords(element: HTMLElement) {
-  if (element.dataset.splitReady === 'true') return;
-  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-  const nodes: Text[] = [];
-  while (walker.nextNode()) {
-    const node = walker.currentNode as Text;
-    if (node.textContent?.trim()) nodes.push(node);
-  }
-
-  nodes.forEach((node) => {
-    const fragment = document.createDocumentFragment();
-    const parts = node.textContent?.split(/(\s+)/) ?? [];
-    parts.forEach((part) => {
-      if (!part.trim()) {
-        fragment.appendChild(document.createTextNode(part));
-        return;
-      }
-      const outer = document.createElement('span');
-      const inner = document.createElement('span');
-      outer.className = 'word';
-      inner.className = 'word-inner';
-      inner.textContent = part;
-      outer.appendChild(inner);
-      fragment.appendChild(outer);
-    });
-    node.replaceWith(fragment);
-  });
-  element.dataset.splitReady = 'true';
 }
 
 function initHeader() {
@@ -70,261 +35,6 @@ function initHeader() {
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeMenu();
   });
-}
-
-function initCursor() {
-  if (window.matchMedia('(pointer: coarse)').matches || reducedMotion) return;
-  const aura = qs<HTMLElement>('[data-cursor-aura]');
-  const dot = qs<HTMLElement>('[data-cursor-dot]');
-  if (!aura || !dot) return;
-
-  const auraX = gsap.quickTo(aura, 'x', { duration: 0.38, ease: 'power3' });
-  const auraY = gsap.quickTo(aura, 'y', { duration: 0.38, ease: 'power3' });
-  const dotX = gsap.quickTo(dot, 'x', { duration: 0.09, ease: 'power2' });
-  const dotY = gsap.quickTo(dot, 'y', { duration: 0.09, ease: 'power2' });
-
-  window.addEventListener('pointermove', (event) => {
-    document.body.classList.add('cursor-active');
-    auraX(event.clientX);
-    auraY(event.clientY);
-    dotX(event.clientX);
-    dotY(event.clientY);
-  }, { passive: true });
-
-  qsa<HTMLElement>('a, button, input, textarea, select, summary, [data-tilt-card]').forEach((element) => {
-    element.addEventListener('pointerenter', () => document.body.classList.add('cursor-hover'));
-    element.addEventListener('pointerleave', () => document.body.classList.remove('cursor-hover'));
-  });
-}
-
-function initMagnetic() {
-  if (window.matchMedia('(pointer: coarse)').matches || reducedMotion) return;
-  qsa<HTMLElement>('.magnetic:not(.button):not(.header-cta)').filter((element) => !element.closest('[data-tilt-card]')).forEach((element) => {
-    element.addEventListener('pointermove', (event) => {
-      const rect = element.getBoundingClientRect();
-      const x = event.clientX - rect.left - rect.width / 2;
-      const y = event.clientY - rect.top - rect.height / 2;
-      gsap.to(element, { x: x * 0.14, y: y * 0.14, duration: 0.35, ease: 'power3.out' });
-    });
-    element.addEventListener('pointerleave', () => {
-      gsap.to(element, { x: 0, y: 0, duration: 0.65, ease: 'elastic.out(1, 0.45)' });
-    });
-  });
-}
-
-let tiltMedia: ReturnType<typeof gsap.matchMedia> | undefined;
-
-function initTiltCards() {
-  if (tiltMedia) return;
-  tiltMedia = gsap.matchMedia();
-  tiltMedia.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => {
-    const listeners = new AbortController();
-    const options = { signal: listeners.signal, passive: true };
-    qsa<HTMLElement>('[data-tilt-card]').forEach((card) => {
-      // Rotation stays independent of ScrollTrigger's reveal translation.
-      const rotateX = gsap.quickTo(card, 'rotationX', { duration: 0.4, ease: 'power2.out' });
-      const rotateY = gsap.quickTo(card, 'rotationY', { duration: 0.4, ease: 'power2.out' });
-      gsap.set(card, { transformPerspective: 1100 });
-      let bounds: DOMRect | undefined;
-      const reset = () => { bounds = undefined; rotateX(0); rotateY(0); };
-      card.addEventListener('pointerenter', () => { bounds = card.getBoundingClientRect(); }, options);
-      card.addEventListener('pointermove', (event) => {
-        if (event.pointerType === 'touch') return;
-        if ((event.target as Element).closest('a, button, input, select, textarea')) {
-          reset();
-          return;
-        }
-        bounds ??= card.getBoundingClientRect();
-        const x = gsap.utils.clamp(-0.5, 0.5, (event.clientX - bounds.left) / bounds.width - 0.5);
-        const y = gsap.utils.clamp(-0.5, 0.5, (event.clientY - bounds.top) / bounds.height - 0.5);
-        rotateX(-y * 8);
-        rotateY(x * 8);
-      }, options);
-      card.addEventListener('pointerleave', reset, options);
-      card.addEventListener('pointercancel', reset, options);
-      card.addEventListener('focusin', reset, options);
-      window.addEventListener('scroll', reset, options);
-      window.addEventListener('resize', reset, options);
-    });
-    return () => listeners.abort();
-  });
-}
-
-function initHero() {
-  if (reducedMotion) return;
-  const hero = qs<HTMLElement>('[data-hero]');
-  const pageHero = qs<HTMLElement>('[data-page-hero]');
-
-  if (hero) {
-    const timeline = gsap.timeline({ defaults: { ease: 'power4.out' } });
-    timeline
-      .from('.hero-line > span', { yPercent: 115, rotate: 3, duration: 1.05, stagger: 0.11 })
-      .from('.hero-reveal', { y: 28, autoAlpha: 0, duration: 0.72, stagger: 0.08 }, '-=0.65')
-      .from('.floating-chip', { scale: 0.5, autoAlpha: 0, duration: 0.6, stagger: 0.08, ease: 'back.out(1.8)' }, '-=0.5');
-
-    if (!reducedMotion) {
-      // Float the wrapper so hover rotation on the terminal remains independent.
-      gsap.to('.terminal-float', {
-        y: -10,
-        duration: 3.2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-      gsap.to('.floating-chip', {
-        y: (index) => index % 2 === 0 ? -13 : 13,
-        rotate: (index) => index % 2 === 0 ? '+=3' : '-=3',
-        duration: 2.8,
-        stagger: 0.35,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-      gsap.to('.orbit-one', { rotate: '+=360', duration: 46, repeat: -1, ease: 'none' });
-      gsap.to('.orbit-two', { rotate: '-=360', duration: 56, repeat: -1, ease: 'none' });
-      gsap.to('.hero-aura-one', {
-        yPercent: 24,
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1.1 },
-      });
-      gsap.to('.hero-stage', {
-        yPercent: 12,
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1.2 },
-      });
-    }
-  }
-
-  if (pageHero) {
-    gsap.from(qsa<HTMLElement>('.hero-reveal', pageHero), {
-      y: 45,
-      autoAlpha: 0,
-      duration: 0.95,
-      stagger: 0.1,
-      ease: 'power4.out',
-    });
-    if (!reducedMotion) {
-      gsap.to('.page-hero .orb-one', {
-        yPercent: 22,
-        xPercent: -8,
-        scrollTrigger: { trigger: pageHero, start: 'top top', end: 'bottom top', scrub: 1.2 },
-      });
-    }
-  }
-
-  const articleHero = qs<HTMLElement>('.article-hero');
-  if (articleHero) {
-    gsap.from(qsa<HTMLElement>('.hero-reveal', articleHero), {
-      y: 42,
-      autoAlpha: 0,
-      duration: 0.85,
-      stagger: 0.09,
-      ease: 'power4.out',
-    });
-  }
-}
-
-function initRevealAnimations() {
-  if (reducedMotion) {
-    gsap.set('.reveal-up, .reveal-scale, [data-project-card], [data-blog-card], [data-video-card]', { autoAlpha: 1 });
-    return;
-  }
-
-  gsap.set('.reveal-up', { y: 34, autoAlpha: 0 });
-  gsap.set('.reveal-scale', { y: 28, scale: 0.965, autoAlpha: 0 });
-  gsap.set('[data-project-card]', { y: 52, clipPath: 'inset(10% 0 0 0 round 38px)', autoAlpha: 0 });
-  gsap.set('[data-blog-card], [data-video-card]', { y: 40, scale: 0.98, autoAlpha: 0 });
-
-  qsa<HTMLElement>('[data-split]').forEach(splitWords);
-  qsa<HTMLElement>('[data-split]').forEach((heading) => {
-    const words = qsa<HTMLElement>('.word-inner', heading);
-    gsap.from(words, {
-      yPercent: 115,
-      duration: 0.8,
-      stagger: 0.022,
-      ease: 'power4.out',
-      scrollTrigger: { trigger: heading, start: 'top 84%', once: true },
-    });
-  });
-
-  ScrollTrigger.batch('.reveal-up', {
-    start: 'top 88%',
-    once: true,
-    onEnter: (elements) => gsap.fromTo(elements,
-      { y: 34, autoAlpha: 0 },
-      { y: 0, autoAlpha: 1, duration: 0.72, stagger: 0.08, ease: 'power3.out', overwrite: true }
-    ),
-  });
-
-  ScrollTrigger.batch('.reveal-scale', {
-    start: 'top 88%',
-    once: true,
-    onEnter: (elements) => gsap.fromTo(elements,
-      { y: 28, scale: 0.965, autoAlpha: 0 },
-      { y: 0, scale: 1, autoAlpha: 1, duration: 0.9, stagger: 0.09, ease: 'power3.out', overwrite: true }
-    ),
-  });
-
-  ScrollTrigger.batch('[data-project-card]', {
-    start: 'top 89%',
-    once: true,
-    onEnter: (elements) => gsap.fromTo(elements,
-      { y: 52, clipPath: 'inset(10% 0 0 0 round 38px)', autoAlpha: 0 },
-      { y: 0, clipPath: 'inset(0% 0 0 0 round 38px)', autoAlpha: 1, duration: 0.9, stagger: 0.12, ease: 'power3.out' }
-    ),
-  });
-
-  ScrollTrigger.batch('[data-blog-card], [data-video-card]', {
-    start: 'top 90%',
-    once: true,
-    onEnter: (elements) => gsap.fromTo(elements,
-      { y: 40, scale: 0.98, autoAlpha: 0 },
-      { y: 0, scale: 1, autoAlpha: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out' }
-    ),
-  });
-
-  const proseChildren = qsa<HTMLElement>('[data-article-content] > *');
-  if (proseChildren.length) {
-    ScrollTrigger.batch(proseChildren, {
-      start: 'top 91%',
-      once: true,
-      onEnter: (elements) => gsap.from(elements, { y: 22, autoAlpha: 0, duration: 0.58, stagger: 0.04, ease: 'power2.out' }),
-    });
-  }
-}
-
-function initScrollEffects() {
-  const progress = qs<HTMLElement>('[data-scroll-progress]');
-  if (progress) {
-    gsap.to(progress, {
-      scaleX: 1,
-      ease: 'none',
-      scrollTrigger: { start: 0, end: 'max', scrub: 0.15 },
-    });
-  }
-
-  qsa<HTMLElement>('[data-timeline]').forEach((timeline) => {
-    const line = qs<HTMLElement>('[data-timeline-progress]', timeline);
-    if (!line) return;
-    gsap.to(line, {
-      scaleY: 1,
-      ease: 'none',
-      scrollTrigger: { trigger: timeline, start: 'top 72%', end: 'bottom 58%', scrub: 0.8 },
-    });
-  });
-
-  const marquee = qs<HTMLElement>('[data-marquee]');
-  if (marquee && !reducedMotion) {
-    gsap.to(marquee, { xPercent: -50, duration: 48, repeat: -1, ease: 'none' });
-  }
-
-  if (!reducedMotion) {
-    qsa<HTMLElement>('.project-visual, .blog-art').forEach((visual) => {
-      gsap.to(visual, {
-        backgroundPosition: '50% 90%',
-        ease: 'none',
-        scrollTrigger: { trigger: visual, start: 'top bottom', end: 'bottom top', scrub: 1.4 },
-      });
-    });
-  }
 }
 
 function initContactForm() {
@@ -375,24 +85,77 @@ function initScrollTop() {
   });
 }
 
+function initRevealAnimations() {
+  if (reducedMotion || !('IntersectionObserver' in window)) return;
+  const seen = new WeakSet<Element>();
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      // Content already on screen stays visible; never hide it after first paint.
+      const firstObservation = !seen.has(entry.target);
+      seen.add(entry.target);
+      if (!entry.isIntersecting) continue;
+      observer.unobserve(entry.target);
+      if (firstObservation || window.matchMedia('(prefers-reduced-motion: reduce)').matches) continue;
+      entry.target.animate([
+        { opacity: 0, translate: '0 24px' },
+        { opacity: 1, translate: '0 0' },
+      ], { duration: 650, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    }
+  }, { threshold: 0 });
+  qsa<HTMLElement>('.reveal-up, .reveal-scale, [data-split], [data-project-card], [data-blog-card], [data-video-card]')
+    .forEach((element) => observer.observe(element));
+}
+
+function initScrollProgress() {
+  const progress = qs<HTMLElement>('[data-scroll-progress]');
+  if (!progress) return;
+  let pending = false;
+  const update = () => {
+    const distance = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = `scaleX(${distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0})`;
+    pending = false;
+  };
+  const schedule = () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(update);
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  window.addEventListener('load', schedule, { once: true });
+  update();
+}
+
+function scheduleMotion() {
+  if (reducedMotion) return;
+  const hasAmbientMotion = qs('[data-hero], [data-timeline], [data-marquee]');
+  const hasPointerEffects = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!hasAmbientMotion && !hasPointerEffects) return;
+  const load = () => {
+    const start = () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // Visual enhancements must not block the essential page controls.
+      void import('./motion').then(({ initMotion }) => initMotion()).catch((error) => {
+        console.warn('Optional motion could not load.', error);
+      });
+    };
+    if ('requestIdleCallback' in window) window.requestIdleCallback(start, { timeout: 2000 });
+    else setTimeout(start, 0);
+  };
+  if (document.readyState === 'complete') load();
+  else window.addEventListener('load', load, { once: true });
+}
+
 function init() {
   if (document.documentElement.dataset.interactionsReady === 'true') return;
   document.documentElement.dataset.interactionsReady = 'true';
   initHeader();
-  initCursor();
-  initMagnetic();
-  initTiltCards();
-  initHero();
-  initRevealAnimations();
-  initScrollEffects();
   initContactForm();
   initAccordion();
   initScrollTop();
-  window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+  initScrollProgress();
+  initRevealAnimations();
+  scheduleMotion();
 }
-
-window.addEventListener('pagehide', (event) => {
-  if (!event.persisted) tiltMedia?.revert();
-});
 
 init();

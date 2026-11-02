@@ -5,7 +5,7 @@
   --surface-solid: #ffffff;
   --text: #20283a;
   --text-soft: #687084;
-  --text-faint: #9ba2b2;
+  --text-faint: #687084;
   --line: rgba(32, 40, 58, 0.12);
   --line-strong: rgba(32, 40, 58, 0.2);
   --yellow: #ffd43b;
@@ -2907,17 +2907,6 @@ body.cursor-hover .cursor-aura {
 .footer-bottom a {
   color: #c6ccd7;
   font-weight: 800;
-}
-
-/* Animation preparation */
-.split-heading .word {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-}
-
-.split-heading .word-inner {
-  display: inline-block;
 }
 
 /* Responsive */

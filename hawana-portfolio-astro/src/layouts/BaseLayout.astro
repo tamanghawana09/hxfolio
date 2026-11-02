@@ -9,12 +9,14 @@ interface Props {
   description?: string;
   image?: string;
   noindex?: boolean;
+  ads?: boolean;
 }
 const {
   title = 'Hawana Tamang | Backend Developer & WordPress Engineer',
   description = 'Backend developer and WordPress engineer from Bhaktapur, Nepal. Building Spring Boot APIs, custom WordPress systems, and polished web experiences.',
   image = '/og-cover.png',
   noindex = false,
+  ads = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
@@ -33,7 +35,7 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=optional" rel="stylesheet" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -45,8 +47,8 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
     <meta name="twitter:image" content={socialImage} />
     <title>{title}</title>
     <script is:inline>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9869131641032455"
-     crossorigin="anonymous"></script>
+    {ads && <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9869131641032455"
+     crossorigin="anonymous"></script>}
   </head>
   <body id="top">
     <div class="page-noise" aria-hidden="true"></div>

@@ -81,16 +81,18 @@ The main palette is defined at the top with CSS custom properties. The current i
 
 ### Animation
 
-All GSAP behavior is centralized in:
+Essential interactions and optional GSAP effects are separated into:
 
 ```text
 src/scripts/site.ts
+src/scripts/motion.ts
 ```
 
 It includes:
 
-- hero entrance sequence
-- ScrollTrigger reveal animations
+- essential controls and scroll progress, independent of animation libraries
+- native IntersectionObserver reveals that preserve heading markup and layout
+- optional GSAP/ScrollTrigger effects in `src/scripts/motion.ts`, loaded after the page load during idle time
 - animated timeline progress
 - ambient parallax
 - infinite skills marquee
@@ -99,6 +101,8 @@ It includes:
 - pointer aura
 - scroll progress indicator
 - reduced-motion support
+
+Headings and hero content remain visible at first paint. Fonts use `display=optional` to avoid late font swaps; slower first visits can use the system fallback font. AdSense is enabled only by the blog article layout through `<BaseLayout ads>`; the homepage, blog listing, and other portfolio pages do not load it. Automatic ad placement can still affect article layout stability and should be checked in PageSpeed after deployment.
 
 ## Contact form behavior
 
