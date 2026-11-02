@@ -1,3 +1,5 @@
+import { initMotion } from './motion';
+
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function qs<T extends Element>(selector: string, root: ParentNode = document): T | null {
@@ -126,26 +128,6 @@ function initScrollProgress() {
   update();
 }
 
-function scheduleMotion() {
-  if (reducedMotion) return;
-  const hasAmbientMotion = qs('[data-hero], [data-timeline], [data-marquee]');
-  const hasPointerEffects = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (!hasAmbientMotion && !hasPointerEffects) return;
-  const load = () => {
-    const start = () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      // Visual enhancements must not block the essential page controls.
-      void import('./motion').then(({ initMotion }) => initMotion()).catch((error) => {
-        console.warn('Optional motion could not load.', error);
-      });
-    };
-    if ('requestIdleCallback' in window) window.requestIdleCallback(start, { timeout: 2000 });
-    else setTimeout(start, 0);
-  };
-  if (document.readyState === 'complete') load();
-  else window.addEventListener('load', load, { once: true });
-}
-
 function init() {
   if (document.documentElement.dataset.interactionsReady === 'true') return;
   document.documentElement.dataset.interactionsReady = 'true';
@@ -155,7 +137,7 @@ function init() {
   initScrollTop();
   initScrollProgress();
   initRevealAnimations();
-  scheduleMotion();
+  initMotion();
 }
 
 init();

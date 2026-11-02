@@ -81,7 +81,7 @@ The main palette is defined at the top with CSS custom properties. The current i
 
 ### Animation
 
-Essential interactions and optional GSAP effects are separated into:
+Essential interactions and lightweight native motion are separated into:
 
 ```text
 src/scripts/site.ts
@@ -92,12 +92,11 @@ It includes:
 
 - essential controls and scroll progress, independent of animation libraries
 - native IntersectionObserver reveals that preserve heading markup and layout
-- optional GSAP/ScrollTrigger effects in `src/scripts/motion.ts`, loaded after the page load during idle time
-- animated timeline progress
-- ambient parallax
-- infinite skills marquee
+- native pointer effects in `src/scripts/motion.ts`; no GSAP/ScrollTrigger on portfolio pages
+- static timeline accents
+- CSS floating elements and rotating orbits, paused offscreen and in background tabs
+- CSS skills marquee
 - tilt interactions
-- magnetic buttons
 - pointer aura
 - scroll progress indicator
 - reduced-motion support

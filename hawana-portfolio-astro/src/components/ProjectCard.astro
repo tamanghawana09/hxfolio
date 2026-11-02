@@ -32,7 +32,7 @@ const { project, compact = false } = Astro.props;
     <div class="tag-list">
       {project.tags.map((tag) => <span>{tag}</span>)}
     </div>
-    <a class="text-link magnetic" href={project.href} target="_blank" rel="noreferrer">
+    <a class="text-link magnetic" href={project.href} aria-label={`${project.linkLabel}: ${project.title}`} target="_blank" rel="noreferrer">
       {project.linkLabel}<Icon name="arrow-up-right" size={18} />
     </a>
   </div>

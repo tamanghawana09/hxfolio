@@ -683,9 +683,9 @@ body.cursor-hover .cursor-aura {
   margin-bottom: 0;
 }
 
-.code-key { color: #8b6cf0; }
-.code-value { color: #d87e38; }
-.code-bool { color: #208f71; font-weight: 700; }
+.code-key { color: #6845bd; }
+.code-value { color: #98501b; }
+.code-bool { color: #17684f; font-weight: 700; }
 
 .terminal-result {
   margin-top: 24px !important;
@@ -2896,7 +2896,7 @@ body.cursor-hover .cursor-aura {
   gap: 20px;
   padding-block: 22px;
   border-top: 1px solid rgba(255,255,255,.12);
-  color: #8992a2;
+  color: #aeb7c7;
   font-size: .65rem;
 }
 
@@ -3092,4 +3092,22 @@ body.cursor-hover .cursor-aura {
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* Compositor-friendly ambient motion; pause outside the viewport and in background tabs. */
+@keyframes portfolio-float { to { translate: 0 -10px; } }
+@keyframes portfolio-orbit { to { rotate: 360deg; } }
+@keyframes portfolio-marquee { to { translate: -50% 0; } }
+.cursor-aura, .cursor-dot { top: 0; left: 0; }
+.cursor-aura { transition: translate .15s ease-out, width .25s ease, height .25s ease, background .25s ease; }
+.timeline-line span, .story-line span { transform: scaleY(1); }
+@media (prefers-reduced-motion: no-preference) {
+  .terminal-float, .floating-chip { animation: portfolio-float 3.2s ease-in-out infinite alternate paused; }
+  .chip-wp, .chip-db { animation-direction: alternate-reverse; animation-delay: -.7s; }
+  .orbit-one { animation: portfolio-orbit 46s linear infinite paused; }
+  .orbit-two { animation: portfolio-orbit 56s linear infinite reverse paused; }
+  .marquee-track { animation: portfolio-marquee 48s linear infinite paused; }
+  .ambient-visible :is(.terminal-float, .floating-chip, .orbit-one, .orbit-two, .marquee-track) { animation-play-state: running; }
+  .motion-paused :is(.terminal-float, .floating-chip, .orbit-one, .orbit-two, .marquee-track) { animation-play-state: paused; }
+  [data-tilt-card] { transition: transform .2s ease-out; }
 }
